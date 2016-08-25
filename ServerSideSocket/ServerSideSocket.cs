@@ -36,6 +36,9 @@ namespace ServerSideSocket
             StreamWriter writer = new StreamWriter(stream);
             StreamReader reader = new StreamReader(stream);
 
+            writer.WriteLine("The server is ready");
+            writer.Flush();
+
             string clientText;
             do
             {
@@ -46,6 +49,30 @@ namespace ServerSideSocket
                     writer.WriteLine(DateTime.Now.ToLongTimeString());
                 else if (clientText.ToLower() == "date?")
                     writer.WriteLine(DateTime.Now.ToLongDateString());
+                else if (clientText.ToLower().Substring(0,3) == "add")
+                    try
+                    {
+                        int firstNumber = int.Parse(clientText.Split(' ')[1]);
+                        int secondNumber = int.Parse(clientText.Split(' ')[2]);
+                        int sum = firstNumber + secondNumber;
+                        writer.WriteLine("Sum: " + sum);
+                    }
+                    catch (Exception)
+                    {
+                        writer.WriteLine("\"Add\" syntax invalid.");
+                    }
+                else if (clientText.ToLower().Substring(0, 3) == "sub")
+                    try
+                    {
+                        int firstNumber = int.Parse(clientText.Split(' ')[1]);
+                        int secondNumber = int.Parse(clientText.Split(' ')[2]);
+                        int differens = firstNumber - secondNumber;
+                        writer.WriteLine("Differens: " + differens);
+                    }
+                    catch (Exception)
+                    {
+                        writer.WriteLine("\"Sub\" syntax invalid.");
+                    }
                 else
                     writer.WriteLine("Unknown command.");
                 writer.Flush();

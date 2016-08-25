@@ -28,6 +28,11 @@ namespace ClientSideSocket
             StreamWriter writer = new StreamWriter(stream);
             StreamReader reader = new StreamReader(stream);
 
+            // waiting for a ready-message from the server
+            string serverText;
+            serverText = reader.ReadLine();
+            Console.WriteLine(serverText);
+
             string message;
             do
             {
@@ -35,8 +40,7 @@ namespace ClientSideSocket
             message = Console.ReadLine();
             writer.WriteLine(message);
             writer.Flush();
-            Console.WriteLine("The message was send.");
-            string serverText = reader.ReadLine();
+            serverText = reader.ReadLine();
             Console.WriteLine(serverText);
             } while (message.ToLower() != "exit");
 
